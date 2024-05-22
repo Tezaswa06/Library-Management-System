@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card, List, Button, Typography, Spin } from 'antd';
 import axios from 'axios';
 
 const { Title } = Typography;
-const Books = () => {
-    const { categoryId } = useParams();
-  const [books, setBooks] = useState([]);
+
+const Category = () => {
+    const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:8081/api/student/getAllBooksByCategories/${categoryId}`)
+    axios.get('http://localhost:8081/api/student/getAllCategoriesOfBooks')
       .then(response => {
-        setBooks(response.data);
+        setCategories(response.data);
         setLoading(false);
       })
       .catch(error => {
-        console.error('There was an error fetching the books!', error);
+        console.error('There was an error fetching the categories!', error);
         setLoading(false);
       });
-  }, [categoryId]);
+  }, []);
 
   if (loading) {
     return (
@@ -31,19 +32,23 @@ const Books = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-3xl">
-        <Title level={2} className="text-center">Books</Title>
+        <Title level={2} className="text-center">Categories</Title>
         <List
           itemLayout="horizontal"
-          dataSource={books}
-          renderItem={book => (
+          dataSource={categories}
+          renderItem={category => (
             <List.Item
               actions={[
-                <Button type="primary">Add Book</Button>
+                <Button 
+                  type="primary" 
+                  onClick={() => navigate(`/categories/${category.categoryId}`)}
+                >
+                  View Books
+                </Button>
               ]}
             >
               <List.Item.Meta
-                title={<span className="text-lg font-semibold">{book.bookname}</span>}
-                description={`Author: ${book.bookAuthor}`}
+                title={<span className="text-lg font-semibold">{category.categoryname}</span>}
               />
             </List.Item>
           )}
@@ -53,4 +58,4 @@ const Books = () => {
   )
 }
 
-export default Books
+export default Category

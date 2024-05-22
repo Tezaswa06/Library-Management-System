@@ -1,5 +1,6 @@
 package com.example.Library.Managment.System.services;
 
+import com.example.Library.Managment.System.dto.LoginRequest;
 import com.example.Library.Managment.System.dto.RegisterRequest;
 import com.example.Library.Managment.System.entities.Student;
 import com.example.Library.Managment.System.repositories.StudentRepository;
@@ -30,17 +31,16 @@ public class AuthenticationService {
         return "Student registered successfully";
     }
 
-    public String loginStudent(RegisterRequest registerRequest){
-        Optional<Student> student = studentRepository.findStudentByStudemail(registerRequest.getEmail());
-        if(student.isPresent()){
+    public LoginRequest loginStudent(LoginRequest loginRequest) {
+        Optional<Student> student = studentRepository.findStudentByStudemail(loginRequest.getStudemail());
+        if (student.isPresent()) {
             Student student1 = student.get();
-            if(student1.getPassword().equals(registerRequest.getPassword())){
-                return "Login Successfull";
-            }
-            else{
-                return "Incorrect Password";
+            if (student1.getPassword().equals(loginRequest.getPassword())) {
+                return new LoginRequest("Login Successful", student1.getId());
+            } else {
+                return new LoginRequest("Incorrect Password", null);
             }
         }
-        return "Student Does Not Exist";
+        return new LoginRequest("Student Does Not Exist", null);
     }
 }

@@ -4,6 +4,7 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import Profile from './Components/Profile';
 import Books from './Components/Books';
+import Category from './Components/Category';
 
 
 function App() {
@@ -23,7 +24,9 @@ function App() {
           <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/books" element={<Books />} />
+          <Route path="/category" element={<Category/>} />
+         
+          <Route path="/categories/:categoryId/" element={<Books />} />
         </Routes>
       </Router>
     </>

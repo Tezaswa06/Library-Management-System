@@ -1,5 +1,6 @@
 package com.example.Library.Managment.System.controller;
 
+import com.example.Library.Managment.System.dto.LoginRequest;
 import com.example.Library.Managment.System.dto.RegisterRequest;
 import com.example.Library.Managment.System.entities.Student;
 import com.example.Library.Managment.System.services.AuthenticationService;
@@ -27,7 +28,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/loginStudent")
-    public  ResponseEntity<String> loginStudent(@RequestBody RegisterRequest registerRequest){
-        return new ResponseEntity<>(authenticationService.loginStudent(registerRequest),HttpStatus.OK);
+    public ResponseEntity<LoginRequest> loginStudent(@RequestBody LoginRequest loginRequest) {
+        LoginRequest loginStudent = authenticationService.loginStudent(loginRequest);
+        HttpStatus status = loginStudent.getStudentId() != null ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+        return new ResponseEntity<>(loginRequest, status);
     }
 }
