@@ -26,8 +26,8 @@ public class Student {
     @Column(name = "student_name")
     private String studentname;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "roll_number")
+    private String rollnumber;
 
     @Column(name = "email_id")
     private String studemail;

@@ -1,6 +1,7 @@
 package com.example.Library.Managment.System.services;
 
 import com.example.Library.Managment.System.dto.LoginRequest;
+import com.example.Library.Managment.System.dto.LoginResponse;
 import com.example.Library.Managment.System.dto.RegisterRequest;
 import com.example.Library.Managment.System.entities.Student;
 import com.example.Library.Managment.System.repositories.StudentRepository;
@@ -26,21 +27,24 @@ public class AuthenticationService {
         Student student1 = new Student();
         student1.setStudemail(registerRequest.getEmail());
         student1.setPassword(registerRequest.getPassword());
+        student1.setStudentname(registerRequest.getStudentname());
+        student1.setRollnumber(registerRequest.getRollnumber());
+
         studentRepository.save(student1);
 
         return "Student registered successfully";
     }
 
-    public LoginRequest loginStudent(LoginRequest loginRequest) {
+    public LoginResponse loginStudent(LoginRequest loginRequest) {
         Optional<Student> student = studentRepository.findStudentByStudemail(loginRequest.getStudemail());
         if (student.isPresent()) {
             Student student1 = student.get();
             if (student1.getPassword().equals(loginRequest.getPassword())) {
-                return new LoginRequest("Login Successful", student1.getId());
+                return new LoginResponse("Login Successful", student1.getId());
             } else {
-                return new LoginRequest("Incorrect Password", null);
+                return new LoginResponse("Incorrect Password", null);
             }
         }
-        return new LoginRequest("Student Does Not Exist", null);
+        return new LoginResponse("Student Does Not Exist", null);
     }
 }
