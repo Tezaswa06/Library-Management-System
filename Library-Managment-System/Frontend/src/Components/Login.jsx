@@ -11,7 +11,7 @@ const Login = ({ setIsAuthenticated }) => {
   const handleLogin = async (values) => {
     const { username, password } = values;
     let payload = {
-      email: username,
+      studemail: username,
       password: password,
     };
     let apiResponse = await axios.post("http://localhost:8081/api/auth/loginStudent", payload);

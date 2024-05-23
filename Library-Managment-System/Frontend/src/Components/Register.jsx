@@ -12,7 +12,7 @@ const Register = () => {
     let payload = {
       email: username,
       password: password,
-      name: StudentName,
+      studentname: StudentName,
       rollnumber: RollNumber,
     };
     try {
