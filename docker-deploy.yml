@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Pull Docker front image from Docker Hub
+      docker_image:
+        name: tezaswa/library_managment_system_frontend
+        tag: latest
+        source: pull
+
+    - name: Pull Docker backend image from Docker Hub
+      docker_image:
+        name: tezaswa/library_managment_system_backend
+        tag: latest
+        source: pull
+
+    - name: Pull Docker mysql image from Docker Hub
+      docker_image:
+        name: tezaswa/mysql
+        tag: latest
+        source: pull
+
+    - name: Run Docker container for front
+      docker_container:
+        name: library_managment_system_frontend
+        image: tezaswa/library_managment_system_frontend:latest
+        ports:
+          - "3001:3001"
+        state: started
+
+    - name: Run Docker container for backend
+      docker_container:
+        name: library_managment_system_backend
+        image: tezaswa/library_managment_system_backend:latest
+        ports:
+          - "8083:8083"
+        state: started
