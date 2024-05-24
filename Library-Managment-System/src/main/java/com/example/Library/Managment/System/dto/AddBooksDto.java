@@ -12,4 +12,7 @@ import lombok.Setter;
 public class AddBooksDto {
     private Long bookId;
     private Long studentId;
+
+    public AddBooksDto(String newBook, String newAuthor) {
+    }
 }

@@ -30,4 +30,6 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Books> books;
 
+    public Category(long l, String science) {
+    }
 }

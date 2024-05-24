@@ -16,4 +16,7 @@ public class StudentDetailsDto {
     private String studentname;
     private String studemail;
     private List<Books> books;
+
+    public StudentDetailsDto(long l, String johnDoe, String mail) {
+    }
 }

@@ -34,4 +34,6 @@ public class Books {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    public Books(long l, String s, String s1) {
+    }
 }
