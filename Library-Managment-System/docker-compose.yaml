@@ -1,1 +1,59 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql-database
+    image: mysql:latest
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=915368742@Awasthi
+      - MYSQL_DATABASE=library_managment_system
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - networkmysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
+  frontend:
+    container_name: LMS-frontend
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    networks:
+      - networkmysql
+
+  backend:
+    container_name: LMS-backend
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - '8081:8081'
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DB_NAME=library_managment_system
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=915368742@Awasthi
+    networks:
+      - networkmysql
+    depends_on:
+      - mysql
+    restart: on-failure:3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  networkmysql:
+volumes:
+  mysql_data:
