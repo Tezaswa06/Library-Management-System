@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button, List, Typography, Spin } from 'antd';
+import { Card, Button, List, Typography, Spin, Avatar } from 'antd';
+import { UserOutlined, LogoutOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './Profile.css'; // Import custom CSS for additional styling
 
-const { Title, Text } = Typography; // Corrected import for Typography components
+const { Title, Text } = Typography;
 
 const Profile = () => {
   const [studentDetails, setStudentDetails] = useState(null);
@@ -11,7 +14,8 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8081/api/student/getStudentDetails/1')
+    const id = localStorage.getItem("studentId");
+    axios.get(`http://localhost:8081/api/student/getStudentDetails/${id}`)
       .then(response => {
         setStudentDetails(response.data);
         setLoading(false);
@@ -24,12 +28,18 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('user');
-    navigate('/login');
+    navigate('/');
   };
-  const RemoveBook = async(bookid) => {
-    let apiResponse = await axios.delete(`http://localhost:8081/api/student/removeBooksFromStudent/${bookid}`)
 
-  }
+  const removeBook = async (bookid) => {
+    await axios.delete(`http://localhost:8081/api/student/removeBooksFromStudent/${bookid}`);
+    // Update state to reflect removed book
+    setStudentDetails(prevDetails => ({
+      ...prevDetails,
+      books: prevDetails.books.filter(book => book.bookid !== bookid)
+    }));
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -38,15 +48,18 @@ const Profile = () => {
     );
   }
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-3xl">
+  return (<>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+   
+      <Card className="w-full max-w-3xl profile-card" bordered={false}>
+     <Link to='/category'><Button className='my-5 font-bold' type='primary'>View Collection</Button></Link> 
         <div className="flex justify-between items-center mb-4">
-          <Title level={2}>Profile</Title>
-          <Button type="primary" onClick={handleLogout}>Logout</Button>
+          <Title level={2} className="profile-title"><UserOutlined /> Profile</Title>
+          <Button type="primary" icon={<LogoutOutlined />} onClick={handleLogout}>Logout</Button>
         </div>
+      
         <div className="mb-4">
-          <Text strong>Email:</Text> <Text>{studentDetails.studemail}</Text>
+          <Text strong>Email:</Text> <Text className="profile-text ">{studentDetails.studemail}</Text>
         </div>
         <div className="mb-4">
           <Text strong>Books:</Text>
@@ -55,13 +68,13 @@ const Profile = () => {
             dataSource={studentDetails.books}
             renderItem={book => (
               <List.Item key={book.bookid}>
-                <div className='flex flex-row'>
-
-                    <List.Item.Meta
+                <div className='flex flex-row items-center justify-between'>
+                  <List.Item.Meta
+                    avatar={<Avatar shape="square" size="large" style={{ backgroundColor: '#f56a00' }}>{book.bookname.charAt(0)}</Avatar>}
                     title={<Text strong>{book.bookname}</Text>}
-                    description={`Author: ${book.bookAuthor} | Category: ${book.category.categoryname}`} // Corrected template literals
-                    />
-                    <Button type='primary' danger className='relative top-8' onClick={()=> RemoveBook(book.bookid)}>Remove</Button>
+                    description={<span className="profile-text">{`Author: ${book.bookAuthor} | Category: ${book.category.categoryname}`}</span>}
+                  />
+                  <Button className='border-none font-bold' type="primary" danger icon={<DeleteOutlined />} onClick={() => removeBook(book.bookid)}>Remove</Button>
                 </div>
               </List.Item>
             )}
@@ -69,6 +82,7 @@ const Profile = () => {
         </div>
       </Card>
     </div>
+    </>
   );
 }
 

@@ -17,6 +17,8 @@ const Login = ({ setIsAuthenticated }) => {
     let apiResponse = await axios.post("http://localhost:8081/api/auth/loginStudent", payload);
     if (apiResponse) {
       console.log(apiResponse);
+      console.log(apiResponse.data.id);
+      localStorage.setItem("studentId",apiResponse.data.id)
       localStorage.setItem('user', JSON.stringify({ username }));
       setIsAuthenticated(true);
       navigate('/Profile');

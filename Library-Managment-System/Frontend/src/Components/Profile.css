@@ -1,0 +1,50 @@
+/* Profile.css */
+.profile-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  
+  .profile-title {
+    font-family: 'Poppins', sans-serif;
+    color: #3f51b5;
+    font-weight: 600;
+  }
+  
+  .profile-text {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+  }
+  
+  .ant-card-body {
+    padding: 16px;
+  }
+  
+  .ant-btn-primary {
+    background-color: #3f51b5;
+    border-color: #3f51b5;
+  }
+  
+  .ant-btn-primary:hover {
+    background-color: #283593;
+    border-color: #283593;
+  }
+  
+  .ant-list-item-meta-title {
+    font-family: 'Poppins', sans-serif;
+    color: #3f51b5;
+  }
+  
+  .ant-list-item-meta-description {
+    font-family: 'Poppins', sans-serif;
+    color: #555;
+  }
+  
+  .ant-list-item {
+    background: #f0f0f0;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
