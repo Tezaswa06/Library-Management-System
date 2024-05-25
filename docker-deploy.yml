@@ -24,7 +24,7 @@
         name: library_managment_system_frontend
         image: tezaswa/library_managment_system_frontend:latest
         ports:
-          - "3001:3001"
+          - "5173:5173"
         state: started
 
     - name: Run Docker container for backend
@@ -32,5 +32,5 @@
         name: library_managment_system_backend
         image: tezaswa/library_managment_system_backend:latest
         ports:
-          - "8083:8083"
+          - "8081:8081"
         state: started
