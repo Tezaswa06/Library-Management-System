@@ -3,7 +3,7 @@
   tasks:
     - name: Pull Docker front image from Docker Hub
       docker_image:
-        name: tezaswa/library_managment_system_frontend
+        name: tezaswa/client
         tag: latest
         source: pull
 
@@ -13,16 +13,12 @@
         tag: latest
         source: pull
 
-    - name: Pull Docker mysql image from Docker Hub
-      docker_image:
-        name: tezaswa/mysql
-        tag: latest
-        source: pull
+
 
     - name: Run Docker container for front
       docker_container:
         name: library_managment_system_frontend
-        image: tezaswa/library_managment_system_frontend:latest
+        image: tezaswa/client:latest
         ports:
           - "5173:5173"
         state: started
