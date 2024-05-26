@@ -1,0 +1,24 @@
+---
+- name: Deploy React Application
+  hosts: localhost 
+  vars:
+    docker_image: "tezaswa/client:latest"
+    container_name: "client"
+  tasks:
+
+    - name: Stop and remove existing container
+      docker_container:
+        name: "{{ container_name }}"
+        state: absent
+        force_kill: yes
+
+    - name: Run Docker container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: always
+        pull: true
+        ports:
+          - "5173:5173"
+

@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=mydatabase'
+      - 'MYSQL_PASSWORD=mypassword'
+      - 'MYSQL_USER=myuser'
+      - 'MYSQL_ROOT_PASSWORD=mypassword'
+      
+    ports:
+      - '3307:3307'
+  application:
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3307/samples_dev_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: myuser 
+      SPRING_DATASOURCE_PASSWORD: mypassword
+volumes:
+  mysql-data:    

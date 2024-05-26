@@ -1,0 +1,26 @@
+server:
+  port: 8081
+spring:   
+  application:
+    name: spring-boot-docker
+  main:
+    banner-mode: "off"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/mydatabase?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: myuser
+    password: mypassword
+    platform: mysql
+    initialization-mode: always
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+  jpa:
+    hibernate:
+      ddl-auto: update  
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+    show-sql: false

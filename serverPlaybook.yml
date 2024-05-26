@@ -1,0 +1,24 @@
+---
+- name: Deploy Spring Boot Application
+  hosts: localhost 
+  vars:
+    docker_image: "tezaswa/server:latest"
+    container_name: "server"
+  tasks:
+
+    - name: Stop and remove existing container
+      docker_container:
+        name: "{{ container_name }}"
+        state: absent
+        force_kill: yes
+
+    - name: Run Docker container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: always
+        pull: true
+        ports:
+          - "8081:8081"
+

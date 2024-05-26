@@ -1,6 +1,6 @@
-version: '3'
-services:
+version: '3.8'
 
+services:
   frontend:
     container_name: LMS-frontend
     build:
@@ -8,19 +8,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - '5173:5173'
-
-
-  backend:
-    container_name: LMS-backend
-    build:
-      context: ./Backend
-      dockerfile: Dockerfile
-    ports:
-      - '8081:8081'
-    restart: on-failure:3
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
