@@ -3,28 +3,28 @@
   tasks:
     - name: Pull Docker frontend image from Docker Hub
       docker_image:
-        name: tezaswa/library_managment_system_frontend
+        name: tezaswa/client
         tag: latest
         source: pull
 
     - name: Pull Docker backend image from Docker Hub
       docker_image:
-        name: tezaswa/library_managment_system_backend
+        name: tezaswa/server
         tag: latest
         source: pull
 
     - name: Run Docker container for frontend
       docker_container:
-        name: library_managment_system_frontend
-        image: tezaswa/library_managment_system_frontend:latest
+        name: client
+        image: tezaswa/client:latest
         ports:
           - "5173:5173"
         state: started
 
     - name: Run Docker container for backend
       docker_container:
-        name: library_managment_system_backend
-        image: tezaswa/library_managment_system_backend:latest
+        name: server
+        image: tezaswa/server:latest
         ports:
           - "8081:8081"
         state: started
