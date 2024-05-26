@@ -4,6 +4,8 @@
   collections:
     - kubernetes.core
   tasks:
+    - name: Install Kubernetes collection
+      ansible.builtin.shell: ansible-galaxy collection install kubernetes.core
     - name: Delete existing Deployment if present
       kubernetes.core.k8s:
         state: absent
