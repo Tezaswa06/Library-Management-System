@@ -22,3 +22,9 @@
         ports:
           - "8081:8081"
 
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: [ "prometheus" ]
+
