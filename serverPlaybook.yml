@@ -22,7 +22,7 @@
         ports:
           - "8081:8081"
 
-    management:
+    - management:
       endpoints:
         web:
           exposure:
