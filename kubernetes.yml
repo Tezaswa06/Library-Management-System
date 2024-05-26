@@ -3,11 +3,9 @@
   hosts: localhost
   collections:
     - kubernetes.core
+  environment:
+    KUBECONFIG: "/home/tezaswa/.kube/config"
   tasks:
-    - name: Set KUBECONFIG environment variable
-      ansible.builtin.set_env:
-        KUBECONFIG: "/home/tezaswa/.kube/config"
-    - name: Delete existing Deployment if present
       kubernetes.core.k8s:
         state: absent
         kind: Deployment
