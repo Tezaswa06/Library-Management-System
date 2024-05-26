@@ -1,0 +1,32 @@
+---
+- name: Deploy Spring Boot Application to Kubernetes
+  hosts: localhost
+  collections:
+    - kubernetes.core
+  tasks:
+    - name: Delete existing Deployment if present
+      kubernetes.core.k8s:
+        state: absent
+        kind: Deployment
+        name: server
+        namespace: library-management 
+      ignore_errors: yes
+
+    - name: Delete existing Service if present
+      kubernetes.core.k8s:
+        state: absent
+        kind: Service
+        name: server-service
+        namespace: library-management 
+      ignore_errors: yes
+
+    - name: Apply Deployment
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'serverDeployment.yml') }}"
+
+    - name: Apply Service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'serverService.yml') }}"
+
