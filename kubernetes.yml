@@ -6,6 +6,7 @@
   environment:
     KUBECONFIG: "/home/tezaswa/.kube/config"
   tasks:
+    - name: Delete existing Deployment if present
       kubernetes.core.k8s:
         state: absent
         kind: Deployment
